@@ -1,4 +1,4 @@
 # CMAP
 
-CLI tool for image theme specification
+CLI tool to convert image based on theme specification
 ---
