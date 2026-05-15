@@ -2,6 +2,7 @@
 module Main where
 
 import ThemeParser
+import ImageProcessor
 import Options.Applicative
 import System.FilePath (takeExtension)
 import System.IO (hPutStrLn, stderr)
@@ -33,10 +34,6 @@ cmap = CMap
         <> help "provide output path")
 
 
-
-
-    
-
 main :: IO ()
 main = parse =<< execParser opts
     where
@@ -57,4 +54,16 @@ parse (CMap imagePath themePath outputPath) = do
                 themeColors = colors (colorDetail config)
             putStrLn $ "Processing image: " ++ imagePath
             putStrLn $ "Applying theme " ++ show themeName 
-            print themeColors
+            loadedImageData <- loadImage imagePath 
+            let loadedImage = imageList loadedImageData
+                w = width loadedImageData
+                h = height loadedImageData
+            let outputImage = applyTheme loadedImage themeColors 
+            generateOutput outputPath outputImage w h
+            putStrLn $ "Output image generated at " ++ outputPath
+
+            
+            
+            
+            
+
